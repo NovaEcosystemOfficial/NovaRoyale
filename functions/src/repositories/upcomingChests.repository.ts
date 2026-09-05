@@ -6,10 +6,12 @@ import {UpcomingChestsDocument} from "../models/upcomingChests.js";
 import {nowTimestamp} from "../utils/timestamps.js";
 
 export class UpcomingChestsRepository {
-  private readonly db = getAdminFirestore();
+  private db() {
+    return getAdminFirestore();
+  }
 
   private docRef(tagId: string) {
-    return this.db
+    return this.db()
       .collection(COLLECTIONS.players)
       .doc(tagId)
       .collection(COLLECTIONS.upcomingChests)

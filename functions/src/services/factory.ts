@@ -1,4 +1,5 @@
 import {ClashRoyaleClient} from "../clashRoyale/client.js";
+import {resolveClashRoyaleApiBaseUrl} from "../config/constants.js";
 import {clashRoyaleApiKey} from "../config/secrets.js";
 import {ClashRoyaleService} from "../services/clashRoyale.service.js";
 import {SyncService} from "../services/sync.service.js";
@@ -13,7 +14,10 @@ export function createSyncService(apiKey?: string): SyncService {
     );
   }
 
-  const client = new ClashRoyaleClient({apiKey: key});
+  const client = new ClashRoyaleClient({
+    apiKey: key,
+    baseUrl: resolveClashRoyaleApiBaseUrl(),
+  });
   const clashRoyaleService = new ClashRoyaleService(client);
   return new SyncService(clashRoyaleService);
 }

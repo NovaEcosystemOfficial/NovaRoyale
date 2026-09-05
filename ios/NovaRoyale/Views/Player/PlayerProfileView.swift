@@ -3,6 +3,7 @@ import SwiftUI
 struct PlayerProfileView: View {
     @Environment(ServiceContainer.self) private var services
     @Environment(AppLanguage.self) private var language
+    @Environment(SessionController.self) private var session
     @State private var viewModel: PlayerViewModel?
     @State private var appear = false
 
@@ -27,6 +28,7 @@ struct PlayerProfileView: View {
                             playerTag: player.tag,
                             level: player.level,
                             trophies: player.trophies,
+                            clanName: player.clanName,
                             bannerCardNames: ["Princess", "Ice Wizard", "Mega Knight"]
                         )
                         .staggeredAppear(index: 1, isVisible: appear)
@@ -37,11 +39,14 @@ struct PlayerProfileView: View {
                         battleRecord(player)
                             .staggeredAppear(index: 3, isVisible: appear)
 
-                        languageSection
+                        changeTagSection
                             .staggeredAppear(index: 4, isVisible: appear)
 
-                        emblemsSection
+                        languageSection
                             .staggeredAppear(index: 5, isVisible: appear)
+
+                        emblemsSection
+                            .staggeredAppear(index: 6, isVisible: appear)
                     } else {
                         RoundedRectangle(cornerRadius: RoyalDS.Radius.xl)
                             .fill(Color.white.opacity(0.08))
@@ -77,6 +82,25 @@ struct PlayerProfileView: View {
                 StatCard(title: L10n.t("stats.best", language), value: "\(player.bestTrophies)", symbol: "crown.fill", tint: RoyalDS.Color.gold, style: .gold)
                 StatCard(title: L10n.t("stats.battles", language), value: "\(player.battleCount)", symbol: "bolt.fill", tint: RoyalDS.Color.purple, style: .purple)
                 StatCard(title: L10n.t("profile.level", language), value: "\(player.level)", symbol: "star.fill", tint: RoyalDS.Color.electric, style: .primary)
+            }
+        }
+    }
+
+    private var changeTagSection: some View {
+        RoyalPanelV2(kind: .purple, cornerRadius: RoyalDS.Radius.lg) {
+            VStack(alignment: .leading, spacing: 10) {
+                RoyalText(text: L10n.t("profile.change_tag", language), size: 18, color: RoyalDS.Color.gold)
+                Text(L10n.t("profile.change_tag.subtitle", language))
+                    .font(RoyalFont.ui(12, weight: .semibold))
+                    .foregroundStyle(RoyalDS.Color.textMuted)
+                RoyalButtonV2(
+                    title: L10n.t("profile.change_tag.cta", language),
+                    symbol: "person.badge.key.fill",
+                    kind: .purple,
+                    height: 52
+                ) {
+                    session.unlinkLocally()
+                }
             }
         }
     }
@@ -121,26 +145,10 @@ struct PlayerProfileView: View {
                 .font(RoyalFont.ui(12, weight: .semibold))
                 .foregroundStyle(RoyalDS.Color.textMuted)
             HStack(spacing: 12) {
-                emblem(symbol: "trophy.fill", title: "Climber", tint: RoyalDS.Color.gold)
-                emblem(symbol: "flame.fill", title: "Hot Streak", tint: RoyalDS.Color.defeat)
-                emblem(symbol: "shield.fill", title: "Defender", tint: RoyalDS.Color.cyan)
+                RoyalEmblemMedallion(symbol: "trophy.fill", title: "Climber", tint: RoyalDS.Color.gold, kind: .gold)
+                RoyalEmblemMedallion(symbol: "flame.fill", title: "Hot Streak", tint: RoyalDS.Color.defeat, kind: .danger)
+                RoyalEmblemMedallion(symbol: "shield.fill", title: "Defender", tint: RoyalDS.Color.cyan, kind: .blue)
             }
-        }
-    }
-
-    private func emblem(symbol: String, title: String, tint: Color) -> some View {
-        RoyalPanelV2(kind: .primary, cornerRadius: RoyalDS.Radius.md, padding: 12) {
-            VStack(spacing: 8) {
-                Image(systemName: symbol)
-                    .font(.system(size: 22, weight: .black))
-                    .foregroundStyle(tint)
-                    .shadow(color: tint.opacity(0.7), radius: 8)
-                Text(title)
-                    .font(RoyalFont.ui(11, weight: .bold))
-                    .foregroundStyle(RoyalDS.Color.textSecondary)
-                    .multilineTextAlignment(.center)
-            }
-            .frame(maxWidth: .infinity, minHeight: 72)
         }
     }
 }

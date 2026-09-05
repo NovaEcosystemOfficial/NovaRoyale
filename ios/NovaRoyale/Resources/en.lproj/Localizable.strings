@@ -70,3 +70,15 @@
 "common.close" = "Close";
 "common.loading" = "Loading…";
 "demo.open" = "Design Demo";
+"onboarding.title" = "Link your player";
+"onboarding.subtitle" = "Connect your Clash Royale account";
+"onboarding.body" = "Enter your player tag to sync trophies, battles, and chests securely through Firebase.";
+"onboarding.placeholder" = "2PP";
+"onboarding.cta" = "LINK PLAYER";
+"onboarding.hint" = "Find your tag in-game under your profile name (starts with #).";
+"onboarding.api_ip" = "Clash Royale blocked the server IP. On developer.clashroyale.com whitelist exactly 45.79.218.79, then update the Firebase secret and retry.";
+"session.error.title" = "Connection issue";
+"session.retry" = "Retry";
+"profile.change_tag" = "Player tag";
+"profile.change_tag.subtitle" = "Link a different Clash Royale account";
+"profile.change_tag.cta" = "Change tag";

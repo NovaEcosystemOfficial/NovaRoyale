@@ -68,7 +68,11 @@ struct BattlesView: View {
         let losses = battles.count - wins
         return HStack(spacing: 10) {
             RoyalPanelV2(kind: .success, cornerRadius: RoyalDS.Radius.md, padding: 12) {
-                VStack(spacing: 4) {
+                VStack(spacing: 6) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.system(size: 18, weight: .black))
+                        .foregroundStyle(RoyalDS.Color.victory)
+                        .shadow(color: RoyalDS.Color.victory.opacity(0.6), radius: 6)
                     RoyalNumber(value: wins, size: 28, style: .victory)
                     Text(L10n.t("battles.wins", language))
                         .font(RoyalFont.ui(11, weight: .bold))
@@ -77,7 +81,11 @@ struct BattlesView: View {
                 .frame(maxWidth: .infinity)
             }
             RoyalPanelV2(kind: .danger, cornerRadius: RoyalDS.Radius.md, padding: 12) {
-                VStack(spacing: 4) {
+                VStack(spacing: 6) {
+                    Image(systemName: "xmark.octagon.fill")
+                        .font(.system(size: 18, weight: .black))
+                        .foregroundStyle(RoyalDS.Color.defeat)
+                        .shadow(color: RoyalDS.Color.defeat.opacity(0.6), radius: 6)
                     RoyalNumber(value: losses, size: 28, style: .defeat)
                     Text(L10n.t("battles.losses", language))
                         .font(RoyalFont.ui(11, weight: .bold))

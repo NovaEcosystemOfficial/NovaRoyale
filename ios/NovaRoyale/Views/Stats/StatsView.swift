@@ -36,7 +36,7 @@ struct StatsView: View {
 
                             RoyalPanelV2(kind: .blue, cornerRadius: RoyalDS.Radius.lg) {
                                 VStack(alignment: .leading, spacing: 6) {
-                                    Text(L10n.t("stats.win_rate", language))
+                                    Label(L10n.t("stats.win_rate", language), systemImage: "chart.pie.fill")
                                         .font(RoyalFont.ui(12, weight: .bold))
                                         .foregroundStyle(RoyalDS.Color.cyan)
                                     HStack(alignment: .lastTextBaseline, spacing: 2) {

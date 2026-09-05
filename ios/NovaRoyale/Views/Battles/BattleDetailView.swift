@@ -86,7 +86,11 @@ struct BattleDetailView: View {
 
     private func playerColumn(name: String, subtitle: String) -> some View {
         VStack(spacing: 8) {
-            RoyalIconV2(systemName: "person.fill", size: 52, tint: RoyalDS.Color.cyan, kind: .blue)
+            RoyalPlayerAvatarArt(
+                cardName: battle.deckCardNames?.first,
+                monogram: name,
+                size: 52
+            )
             Text(name)
                 .font(RoyalFont.ui(14, weight: .bold))
                 .foregroundStyle(RoyalDS.Color.textPrimary)

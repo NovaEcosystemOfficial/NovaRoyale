@@ -6,6 +6,10 @@ Drop original PNGs here (no Clash Royale proprietary art).
 - `BannerAssets/PlayerBanner.imageset/` → add PlayerBanner@2x.png / @3x.png
 - Suggested size: ~1200×400
 
+## Arena diorama
+- `ArenaAssets/Arena4.imageset/` (name = sanitized arena name, spaces removed)
+- Suggested size: ~1200×700 — replaces procedural towers when present
+
 ## Card artwork
 - `CardAssets/Knight.imageset/` etc.
 - Ready slots: Knight, Archers, Giant, Fireball, Witch, Prince, Princess, IceWizard

@@ -4,10 +4,8 @@ import {UserDocument} from "../models/user.js";
 import {nowTimestamp} from "../utils/timestamps.js";
 
 export class UserRepository {
-  private readonly db = getAdminFirestore();
-
   private collection() {
-    return this.db.collection(COLLECTIONS.users);
+    return getAdminFirestore().collection(COLLECTIONS.users);
   }
 
   async getByUid(uid: string): Promise<UserDocument | null> {

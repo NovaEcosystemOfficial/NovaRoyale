@@ -11,6 +11,7 @@ struct PlayerProfile: Identifiable, Equatable, Sendable {
     let wins: Int
     let losses: Int
     let battleCount: Int
+    var clanName: String? = nil
 
     var winRate: Double {
         let total = wins + losses

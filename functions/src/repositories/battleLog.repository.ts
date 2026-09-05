@@ -7,17 +7,19 @@ import {sanitizeForFirestore} from "../utils/firestoreSanitize.js";
 import {buildSyncState, nowTimestamp} from "../utils/timestamps.js";
 
 export class BattleLogRepository {
-  private readonly db = getAdminFirestore();
+  private db() {
+    return getAdminFirestore();
+  }
 
   private battlesCollection(tagId: string) {
-    return this.db
+    return this.db()
       .collection(COLLECTIONS.players)
       .doc(tagId)
       .collection(COLLECTIONS.battleLogs);
   }
 
   private syncDocRef(tagId: string) {
-    return this.db
+    return this.db()
       .collection(COLLECTIONS.players)
       .doc(tagId)
       .collection(COLLECTIONS.battleLogs)
@@ -46,7 +48,7 @@ export class BattleLogRepository {
     playerTag: string,
     battles: CrApiBattle[],
   ): Promise<void> {
-    const batch = this.db.batch();
+    const batch = this.db().batch();
     const collection = this.battlesCollection(tagId);
 
     const existing = await collection.get();

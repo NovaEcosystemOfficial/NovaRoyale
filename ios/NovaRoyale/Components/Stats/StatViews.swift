@@ -43,7 +43,7 @@ struct WinRateView: View {
     var body: some View {
         RoyalPanelV2(kind: .blue, cornerRadius: RoyalDS.Radius.lg) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(L10n.t("stats.win_rate", language))
+                Label(L10n.t("stats.win_rate", language), systemImage: "chart.pie.fill")
                     .font(RoyalFont.ui(12, weight: .bold))
                     .foregroundStyle(RoyalDS.Color.cyan)
                 HStack(alignment: .lastTextBaseline, spacing: 4) {
@@ -127,7 +127,8 @@ struct TrophyChart: View {
                             .gesture(
                                 DragGesture(minimumDistance: 0)
                                     .onChanged { value in
-                                        let frame = geo[proxy.plotAreaFrame]
+                                        guard let plotFrame = proxy.plotFrame else { return }
+                                        let frame = geo[plotFrame]
                                         let x = value.location.x - frame.origin.x
                                         if let index: Int = proxy.value(atX: x) {
                                             selectedIndex = min(max(index, 0), history.count - 1)

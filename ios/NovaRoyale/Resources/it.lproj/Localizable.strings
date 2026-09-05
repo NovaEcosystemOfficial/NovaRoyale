@@ -70,3 +70,15 @@
 "common.close" = "Chiudi";
 "common.loading" = "Caricamento…";
 "demo.open" = "Demo Design";
+"onboarding.title" = "Collega il giocatore";
+"onboarding.subtitle" = "Connetti il tuo account Clash Royale";
+"onboarding.body" = "Inserisci il player tag per sincronizzare trofei, battaglie e chest in modo sicuro via Firebase.";
+"onboarding.placeholder" = "2PP";
+"onboarding.cta" = "COLLEGA";
+"onboarding.hint" = "Trovi il tag in-game sotto il nome (inizia con #).";
+"onboarding.api_ip" = "Clash Royale ha bloccato l'IP del server. Su developer.clashroyale.com metti esattamente 45.79.218.79, aggiorna il secret Firebase e riprova.";
+"session.error.title" = "Problema di connessione";
+"session.retry" = "Riprova";
+"profile.change_tag" = "Player tag";
+"profile.change_tag.subtitle" = "Collega un altro account Clash Royale";
+"profile.change_tag.cta" = "Cambia tag";

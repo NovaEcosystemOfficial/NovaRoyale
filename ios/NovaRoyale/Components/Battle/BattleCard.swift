@@ -43,12 +43,7 @@ struct BattleCard: View {
         } label: {
             RoyalPanelV2(kind: style, cornerRadius: RoyalDS.Radius.md) {
                 HStack(spacing: 14) {
-                    RoyalIconV2(
-                        systemName: battle.outcome == .victory ? "checkmark.seal.fill" : "xmark.octagon.fill",
-                        size: 48,
-                        tint: tint,
-                        kind: style
-                    )
+                    RoyalBattleLeadingArt(battle: battle, size: 48)
 
                     VStack(alignment: .leading, spacing: 5) {
                         BattleResultBadge(outcome: battle.outcome)
@@ -57,9 +52,14 @@ struct BattleCard: View {
                             .font(RoyalFont.ui(12, weight: .semibold))
                             .foregroundStyle(RoyalDS.Color.textMuted)
                         if let crowns = battle.crowns, let opp = battle.opponentCrowns {
-                            Text("👑 \(crowns)–\(opp)")
-                                .font(RoyalFont.ui(12, weight: .bold))
-                                .foregroundStyle(RoyalDS.Color.gold.opacity(0.9))
+                            HStack(spacing: 4) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 11, weight: .black))
+                                    .foregroundStyle(RoyalDS.Color.gold)
+                                Text("\(crowns)–\(opp)")
+                                    .font(RoyalFont.ui(12, weight: .bold))
+                                    .foregroundStyle(RoyalDS.Color.gold.opacity(0.9))
+                            }
                         }
                     }
 

@@ -25,7 +25,7 @@ struct HomeView: View {
                                 playerTag: player.tag,
                                 level: player.level,
                                 trophies: player.trophies,
-                                clanName: nil,
+                                clanName: player.clanName,
                                 bannerCardNames: ["Knight", "Witch", "Prince"]
                             )
                             .staggeredAppear(index: 1, isVisible: appear)

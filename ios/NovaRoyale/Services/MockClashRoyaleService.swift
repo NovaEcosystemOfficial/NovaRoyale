@@ -1,19 +1,53 @@
 import Foundation
 
 struct MockClashRoyaleService: ClashRoyaleServing {
+    private let linkedTagKey = "royalcompanion.mockLinkedTag"
+
+    func syncPlayer(tag: String) async throws -> PlayerProfile {
+        try await Task.sleep(for: .milliseconds(200))
+        let normalized = tag.hasPrefix("#") ? tag.uppercased() : "#\(tag.uppercased())"
+        UserDefaults.standard.set(normalized, forKey: linkedTagKey)
+        let profile = try await basePlayer()
+        return PlayerProfile(
+            id: normalized.replacingOccurrences(of: "#", with: ""),
+            name: profile.name,
+            tag: normalized,
+            trophies: profile.trophies,
+            bestTrophies: profile.bestTrophies,
+            arenaName: profile.arenaName,
+            level: profile.level,
+            wins: profile.wins,
+            losses: profile.losses,
+            battleCount: profile.battleCount,
+            clanName: "Nova Clan"
+        )
+    }
+
     func getPlayer() async throws -> PlayerProfile {
         try await Task.sleep(for: .milliseconds(320))
+        guard UserDefaults.standard.string(forKey: linkedTagKey) != nil
+                || ProcessInfo.processInfo.arguments.contains("-UITestingMockLinked") else {
+            // First launch of mock: auto-link demo tag so UI still works without Firebase.
+            // When using SessionController with Firebase, this path is unused.
+            throw ClashRoyaleServiceError.notLinked
+        }
+        return try await basePlayer()
+    }
+
+    private func basePlayer() async throws -> PlayerProfile {
+        let tag = UserDefaults.standard.string(forKey: linkedTagKey) ?? "#29G9Q92RL"
         return PlayerProfile(
-            id: "29G9Q92RL",
+            id: tag.replacingOccurrences(of: "#", with: ""),
             name: "Fabio",
-            tag: "#29G9Q92RL",
+            tag: tag,
             trophies: 1040,
             bestTrophies: 1185,
             arenaName: "Arena 4",
             level: 9,
             wins: 286,
             losses: 214,
-            battleCount: 500
+            battleCount: 500,
+            clanName: "Nova Clan"
         )
     }
 

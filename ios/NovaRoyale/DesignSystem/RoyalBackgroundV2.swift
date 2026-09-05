@@ -76,7 +76,7 @@ struct RoyalBackgroundV2: View {
     }
 }
 
-/// Procedural arena diorama placeholder (no proprietary art).
+/// Procedural arena diorama (original art; drop PNG into ArenaAssets to replace).
 struct RoyalArenaHeroPlaceholder: View {
     var arenaName: String = "Arena 4"
     var trophies: Int = 1040
@@ -88,47 +88,29 @@ struct RoyalArenaHeroPlaceholder: View {
                 .offset(y: 8)
                 .blur(radius: 2)
 
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.18, green: 0.42, blue: 0.22),
-                            Color(red: 0.10, green: 0.28, blue: 0.18),
-                            Color(red: 0.12, green: 0.22, blue: 0.38)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-                .overlay {
-                    // Mini towers + path
-                    HStack(spacing: 28) {
-                        tower
-                        VStack(spacing: 8) {
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(red: 0.45, green: 0.32, blue: 0.16))
-                                .frame(width: 70, height: 18)
-                            Image(systemName: "shield.lefthalf.filled")
-                                .font(.system(size: 34, weight: .black))
-                                .foregroundStyle(RoyalDS.Color.gold)
-                                .shadow(color: RoyalDS.Color.gold.opacity(0.7), radius: 10)
-                            RoyalText(text: arenaName.uppercased(), size: 16, color: RoyalDS.Color.gold, strokeWidth: 1.2)
-                        }
-                        tower
-                    }
+            Group {
+                if let art = RoyalAssets.image(named: RoyalAssets.Arena.artwork(named: arenaName)) {
+                    art
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    arenaDiorama
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 26, style: .continuous)
-                        .stroke(
-                            LinearGradient(
-                                colors: [RoyalDS.Color.gold, RoyalDS.Color.metal, RoyalDS.Color.goldDeep],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 3
-                        )
-                )
-                .shadow(color: RoyalDS.Color.gold.opacity(0.3), radius: 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 26, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [RoyalDS.Color.gold, RoyalDS.Color.metal, RoyalDS.Color.goldDeep],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 3
+                    )
+            )
+            .shadow(color: RoyalDS.Color.gold.opacity(0.3), radius: 16)
 
             VStack {
                 Spacer()
@@ -143,24 +125,62 @@ struct RoyalArenaHeroPlaceholder: View {
         .frame(height: 180)
     }
 
-    private var tower: some View {
-        VStack(spacing: 0) {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(RoyalDS.Color.metal)
-                .frame(width: 22, height: 10)
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [RoyalDS.Color.metal.opacity(0.7), RoyalDS.Color.metalDark],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-                .frame(width: 30, height: 58)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                )
+    private var arenaDiorama: some View {
+        ZStack {
+            // Sky → hills → ground
+            LinearGradient(
+                colors: [
+                    Color(red: 0.35, green: 0.62, blue: 0.92),
+                    Color(red: 0.22, green: 0.55, blue: 0.35),
+                    Color(red: 0.14, green: 0.38, blue: 0.22),
+                    Color(red: 0.28, green: 0.22, blue: 0.14)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+
+            // Soft clouds
+            HStack {
+                Capsule().fill(Color.white.opacity(0.55)).frame(width: 54, height: 16).offset(y: -48)
+                Spacer()
+                Capsule().fill(Color.white.opacity(0.4)).frame(width: 40, height: 12).offset(y: -58)
+            }
+            .padding(.horizontal, 24)
+
+            // Dirt path
+            Ellipse()
+                .fill(Color(red: 0.48, green: 0.36, blue: 0.2).opacity(0.85))
+                .frame(width: 110, height: 36)
+                .offset(y: 28)
+
+            HStack(alignment: .bottom, spacing: 18) {
+                RoyalArenaTower(height: 64, accent: RoyalDS.Color.defeat)
+                VStack(spacing: 6) {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [RoyalDS.Color.gold.opacity(0.95), RoyalDS.Color.goldDeep],
+                                    center: .center,
+                                    startRadius: 2,
+                                    endRadius: 28
+                                )
+                            )
+                            .frame(width: 52, height: 52)
+                            .overlay(
+                                Circle().stroke(Color.white.opacity(0.45), lineWidth: 2)
+                            )
+                            .shadow(color: RoyalDS.Color.gold.opacity(0.65), radius: 10)
+                        Image(systemName: "shield.lefthalf.filled")
+                            .font(.system(size: 24, weight: .black))
+                            .foregroundStyle(Color(red: 0.28, green: 0.14, blue: 0.04))
+                    }
+                    RoyalText(text: arenaName.uppercased(), size: 15, color: RoyalDS.Color.gold, strokeWidth: 1.2)
+                }
+                .offset(y: -6)
+                RoyalArenaTower(height: 64, accent: RoyalDS.Color.cyan)
+            }
+            .padding(.bottom, 36)
         }
     }
 }

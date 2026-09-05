@@ -12,10 +12,12 @@ import {sanitizeForFirestore} from "../utils/firestoreSanitize.js";
 import {nowTimestamp} from "../utils/timestamps.js";
 
 export class PlayerRepository {
-  private readonly db = getAdminFirestore();
+  private db() {
+    return getAdminFirestore();
+  }
 
   private collection() {
-    return this.db.collection(COLLECTIONS.players);
+    return this.db().collection(COLLECTIONS.players);
   }
 
   async getByTagId(tagId: string): Promise<PlayerDocument | null> {
@@ -48,10 +50,12 @@ export class PlayerRepository {
 }
 
 export class SyncMetadataRepository {
-  private readonly db = getAdminFirestore();
+  private db() {
+    return getAdminFirestore();
+  }
 
   private collection() {
-    return this.db.collection(COLLECTIONS.syncMetadata);
+    return this.db().collection(COLLECTIONS.syncMetadata);
   }
 
   async get(tagId: string): Promise<SyncMetadataDocument | null> {
