@@ -1,0 +1,12 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "battleLogs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "battleTime", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
